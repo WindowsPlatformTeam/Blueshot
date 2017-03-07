@@ -27,7 +27,7 @@ Desarrollo de la funcionalidad básica del juego - **Work in progress**
 
 Ante cualquier duda, surgerencia o comentario puedes ponerte en contacto con nosotros.
 
-Carlos Sánzhez ([@CarlosKlsOne](https://twitter.com/CarlosKlsOne))
+Carlos Sánchez ([@CarlosKlsOne](https://twitter.com/CarlosKlsOne))
 
 Sergio Gallardo ([@maktub82](https://twitter.com/maktub82))
 
