@@ -15,6 +15,19 @@ public class PlayerController : MonoBehaviour
     {
         if (_rigidBody2D == null) return;
 
+        Move();
+        CalculateRotation();
+    }
+
+    private void CalculateRotation()
+    {
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 direction = (mousePos - (Vector2)transform.position).normalized;
+        transform.up = direction;
+    }
+
+    private void Move()
+    {
         var horizontalMovement = Input.GetAxis("Horizontal");
         var verticalMovement = Input.GetAxis("Vertical");
 
