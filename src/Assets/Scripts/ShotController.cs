@@ -3,9 +3,12 @@
 public class ShotController : MonoBehaviour
 {
     public Material Material;
+    public Material ShotMaterial;
     public float MaxDistance = 10;
+    public float ShotCooldown = 0.5f;
 
     private LineRenderer line;
+    private float nextShot;
 
     private void Start()
     {
@@ -14,7 +17,8 @@ public class ShotController : MonoBehaviour
 
     void Update()
     {
-        DrawShotIndicator();
+        var ray = RayShotIndicator();
+        ShotControl(ray);
     }
 
     private void CreateLine()
@@ -27,7 +31,7 @@ public class ShotController : MonoBehaviour
         line.useWorldSpace = true;
     }
 
-    private void DrawShotIndicator()
+    private RaycastHit2D RayShotIndicator()
     {
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         var direction = mousePos - transform.position;
@@ -44,5 +48,31 @@ public class ShotController : MonoBehaviour
         {
             line.SetPosition(1, ray.GetPoint(MaxDistance));
         }
+
+        return hit;
+    }
+
+    private void ShotControl(RaycastHit2D hit)
+    {
+        if (Time.time < nextShot)
+        {
+            line.material = ShotMaterial;
+            return;
+        }
+
+        if (Input.GetButton("Fire1"))
+        {
+            nextShot = Time.time + ShotCooldown;
+            Shot(hit.collider);
+        }
+
+        line.material = Material;
+    }
+
+    private void Shot(Collider2D collider)
+    {
+        if (collider == null) return;
+
+        Destroy(collider.gameObject);
     }
 }
