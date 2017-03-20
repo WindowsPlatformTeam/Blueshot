@@ -42,7 +42,7 @@ public class ShotController : MonoBehaviour
 
         _line.SetPosition(0, ray.origin);
 
-        if (hit.collider != null)
+        if (hit.collider != null && !hit.collider.isTrigger)
         {
             _line.SetPosition(1, hit.point);
         }
