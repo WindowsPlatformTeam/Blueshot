@@ -28,8 +28,9 @@ public class ShotController : MonoBehaviour
         _line = new GameObject("ShotIndicator").AddComponent<LineRenderer>();
         _line.material = Material;
         _line.numPositions = 2;
-        _line.startWidth = 0.04f;
-        _line.endWidth = 0.04f;
+        _line.startWidth = 2f;
+        _line.endWidth = 2f;
+        _line.sortingLayerName = "Foreground";
         _line.useWorldSpace = true;
     }
 
@@ -42,7 +43,7 @@ public class ShotController : MonoBehaviour
 
         _line.SetPosition(0, ray.origin);
 
-        if (hit.collider != null)
+        if (hit.collider != null && !hit.collider.isTrigger)
         {
             _line.SetPosition(1, hit.point);
         }
@@ -73,7 +74,7 @@ public class ShotController : MonoBehaviour
 
     private void Shot(Collider2D collider)
     {
-        if (collider == null) return;
+        if (collider == null || collider.tag != "Enemy") return;
 
         Destroy(collider.gameObject);
         _gameController.AddScore(1);
