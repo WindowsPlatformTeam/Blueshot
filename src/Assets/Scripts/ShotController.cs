@@ -9,10 +9,12 @@ public class ShotController : MonoBehaviour
 
     private LineRenderer _line;
     private float _nextShot;
+    private GameController _gameController;
 
     private void Start()
     {
         CreateLine();
+        _gameController = GameController.GetInstance();
     }
 
     void Update()
@@ -74,5 +76,6 @@ public class ShotController : MonoBehaviour
         if (collider == null) return;
 
         Destroy(collider.gameObject);
+        _gameController.AddScore(1);
     }
 }
