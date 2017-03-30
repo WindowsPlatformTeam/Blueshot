@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyBulletController : MonoBehaviour
 {
@@ -8,12 +6,13 @@ public class EnemyBulletController : MonoBehaviour
 
     private Rigidbody2D _rigidbody;
     private Vector2 _initialPlayerPosition;
-
+    private GameController _gameController;
 
     void Start()
     {
         _rigidbody = gameObject.GetComponent<Rigidbody2D>();
         _initialPlayerPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
+        _gameController = GameController.GetInstance();
     }
 
     void FixedUpdate()
@@ -31,5 +30,11 @@ public class EnemyBulletController : MonoBehaviour
     void OnCollisionEnter2D(Collision2D coll)
     {
         Destroy(gameObject);
+
+        if(coll != null && coll.gameObject.tag == "Player")
+        {
+            _gameController.GameOver();
+            Destroy(coll.gameObject);
+        }
     }
 }
