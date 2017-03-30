@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class EnemyBulletController : MonoBehaviour
 {
-    private float _speed = 2f;
+    public float Speed = 100f;
+
     private Rigidbody2D _rigidbody;
     private Vector2 _initialPlayerPosition;
 
@@ -19,12 +20,19 @@ public class EnemyBulletController : MonoBehaviour
     {
         if (_rigidbody == null) return;
 
-        Vector3 direction = (_initialPlayerPosition - (Vector2)transform.position).normalized;
-        transform.position += direction * _speed;
+        _rigidbody.velocity = transform.up * Speed;
+    }
 
-        if (transform.position.y > 20)
-        {
+    void OnBecameInvisible()
+    {
+        Destroy(gameObject);
+    }
+
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        if(coll.transform.tag == "Enemy")
+            Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), coll.gameObject.GetComponent<Collider2D>());
+        else
             Destroy(gameObject);
-        }
     }
 }

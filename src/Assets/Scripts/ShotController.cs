@@ -25,12 +25,13 @@ public class ShotController : MonoBehaviour
 
     private void CreateLine()
     {
-        _line = new GameObject("ShotIndicator").AddComponent<LineRenderer>();
-        _line.material = Material;
-        _line.numPositions = 2;
-        _line.startWidth = 0.04f;
-        _line.endWidth = 0.04f;
-        _line.useWorldSpace = true;
+        line = new GameObject("ShotIndicator").AddComponent<LineRenderer>();
+        line.material = Material;
+        line.numPositions = 2;
+        line.startWidth = 2f;
+        line.endWidth = 2f;
+        line.sortingLayerName = "Foreground";
+        line.useWorldSpace = true;
     }
 
     private RaycastHit2D RayShotIndicator()

@@ -25,6 +25,7 @@ public class EnemyController : MonoBehaviour
     public float RotationSpeed;
     public List<GameObject> PatrolPoints;
     public float StopDistance;
+    public float StopFollowDistance;
 
     private EnemyState _state = EnemyState.Idle;
     private GameObject _nextPatrolPoint;
@@ -79,7 +80,7 @@ public class EnemyController : MonoBehaviour
         if (PatrolPoints == null) return;
 
         var distance = Vector3.Distance(transform.position, _currentPoint.transform.position);
-        if (distance < 0.5f)
+        if (distance < 50f)
         {
             SetNextPatrolPoint();
         }
@@ -160,6 +161,10 @@ public class EnemyController : MonoBehaviour
         {
             transform.position = Vector2.MoveTowards(transform.position, _player.transform.position, Speed * Time.deltaTime);
         }
+        if(distance > StopFollowDistance)
+        {
+            SetState(EnemyState.Patrol);
+        }
 
         Shot();
     }
@@ -176,7 +181,9 @@ public class EnemyController : MonoBehaviour
 
     private void Fire()
     {
-        Instantiate(Resources.Load("Bullet"), new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
+        var rotation = new Quaternion(transform.localRotation.x, transform.localRotation.y, transform.localRotation.z, transform.localRotation.w);
+        var bullet = Instantiate(Resources.Load("Bullet"), new Vector3(transform.position.x, transform.position.y, 0), rotation) as GameObject;
+        Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), bullet.GetComponent<Collider2D>());
     }
 
     private GameObject GetNextPatrolPoint(int index)
@@ -198,7 +205,7 @@ public class EnemyController : MonoBehaviour
     {
         Vector2 direction = (target.position - transform.position).normalized;
         Quaternion targetRotation = Quaternion.FromToRotation(Vector3.up, direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, RotationSpeed);
+        transform.localRotation = Quaternion.Slerp(transform.rotation, targetRotation, RotationSpeed);
     }
 
     void OnTriggerEnter2D(Collider2D coll)
