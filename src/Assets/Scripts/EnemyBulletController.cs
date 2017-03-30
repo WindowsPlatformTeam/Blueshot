@@ -30,9 +30,6 @@ public class EnemyBulletController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if(coll.transform.tag == "Enemy")
-            Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), coll.gameObject.GetComponent<Collider2D>());
-        else
-            Destroy(gameObject);
+        Destroy(gameObject);
     }
 }
