@@ -25,13 +25,13 @@ public class ShotController : MonoBehaviour
 
     private void CreateLine()
     {
-        line = new GameObject("ShotIndicator").AddComponent<LineRenderer>();
-        line.material = Material;
-        line.numPositions = 2;
-        line.startWidth = 2f;
-        line.endWidth = 2f;
-        line.sortingLayerName = "Foreground";
-        line.useWorldSpace = true;
+        _line = new GameObject("ShotIndicator").AddComponent<LineRenderer>();
+        _line.material = Material;
+        _line.numPositions = 2;
+        _line.startWidth = 2f;
+        _line.endWidth = 2f;
+        _line.sortingLayerName = "Foreground";
+        _line.useWorldSpace = true;
     }
 
     private RaycastHit2D RayShotIndicator()
@@ -74,7 +74,7 @@ public class ShotController : MonoBehaviour
 
     private void Shot(Collider2D collider)
     {
-        if (collider == null) return;
+        if (collider == null || collider.tag != "Enemy") return;
 
         Destroy(collider.gameObject);
         _gameController.AddScore(1);
