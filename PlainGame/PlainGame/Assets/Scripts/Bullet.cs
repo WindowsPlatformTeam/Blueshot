@@ -6,7 +6,7 @@ public class Bullet : MonoBehaviour
 
 	void Start ()
     {
-	}
+    }
 
     private void OnBecameInvisible()
     {
@@ -25,6 +25,11 @@ public class Bullet : MonoBehaviour
 
     public void Shot(int direction)
     {
-        transform.GetComponent<Rigidbody2D>().velocity = new Vector2(Speed * direction, 0);
+        Shot(direction, Speed);
+    }
+
+    public void Shot(int direction, float speed)
+    {
+        transform.GetComponent<Rigidbody2D>().velocity = new Vector2(speed * direction, 0);
     }
 }
